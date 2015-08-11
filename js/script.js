@@ -1,0 +1,1 @@
+function nothing(){}function hello(){console.log("hello")}
