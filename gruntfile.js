@@ -1,5 +1,6 @@
 module.exports = function(grunt)  {
 	
+	grunt.loadNpmTasks('grunt-sass');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-compass');
@@ -14,8 +15,23 @@ module.exports = function(grunt)  {
 			} // my_target
 		}, // uglify
 		
+		sass: {
+			dev: {
+				options: {
+					includePaths: require('node-bourbon').includePaths,
+					includePaths: require('node-neat').includePaths,
+					outputStyle: 'expanded',
+				},
+				files: {
+					'css/bourbon-styles.css': 'components/bourbon_sass/bourbon-styles.scss'
+				},
+			},
+		},
+		
 		watch: {
 			options: { livereload: true },
+			grunt: { files: ['gruntfile.js'] },
+			
 			scripts: {
 				files: ['./components/js/*.js'],
 				tasks: ['uglify']
@@ -25,10 +41,15 @@ module.exports = function(grunt)  {
 				files: ['*.html']
 			}, // html
 			
-			sass: {
-				files: ['./components/sass/*.scss'],
+			bourbon_sass: {
+				files: ['./components/bourbon_sass/*.scss'],
+				tasks: ['sass:dev']
+			}, // bourbon_sass
+			
+			compass_sass: {
+				files: ['./components/compass_sass/*.scss'],
 				tasks: ['compass:dev']
-			}, // sass
+			}, // compass
 			
 		}, // watch
 		
@@ -39,6 +60,8 @@ module.exports = function(grunt)  {
 				} // options
 			} // dev
 		}, // compass
+		
+		
 		
 	}); // initConfig
 	

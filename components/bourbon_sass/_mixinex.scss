@@ -1,0 +1,78 @@
+/*
+	Mixin
+	Extend
+ */
+
+@mixin message()
+{
+	padding: 10px;
+	width: 150px;
+	text-align: center;
+	color: #444;
+}
+
+%extendmessage {
+	padding: 10px;
+	width: 150px;
+	text-align: center;
+	color: #444;
+}
+
+.error {
+	border: 1px solid red;
+	@include message;
+}
+
+.success {
+	border: 1px solid green;
+	@extend %extendmessage;
+}
+
+.warning {
+  border: 1px solid yellow;
+  @extend %extendmessage;
+}
+
+/*
+	Function
+ */
+ @function nameOfFunction($variable)
+ {
+	@return $variable + 10;
+ }
+ 
+ @function automaticContrast($backgroundColor, $textColor)
+ {
+	@if lightness($backgroundColor) < 50%
+	{
+		@return lighten($textColor, 30%);
+	}
+	@else
+	{
+		@return darken($textColor, 40%);
+	}
+ }
+ 
+ p {
+	font-size: nameOfFunction(16px);
+ }
+ 
+/*
+ Loop
+ */
+@for $i from 1 to 7
+{
+	h#{$1} {
+		font-size: $i + 0px;
+	}
+}
+
+$header-list: h1 h2 h3 h4 h5 h6 '.something_else';
+@each $current-header in $header-list
+{
+	$i: index($header-list, $current-header) + 2;
+	#{$current-header}
+	{
+		font-size: 55px - $i * 4;
+	}
+}
